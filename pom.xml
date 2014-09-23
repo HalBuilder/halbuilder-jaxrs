@@ -3,7 +3,7 @@
 
     <groupId>com.theoryinpractise</groupId>
     <artifactId>halbuilder-jaxrs</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>halbuilder-jaxrsd</name>
@@ -18,7 +18,8 @@
         <connection>scm:git:git@github.com:HalBuilder/halbuilder-jaxrs.git</connection>
         <developerConnection>scm:git:git@github.com:HalBuilder/halbuilder-jaxrs.git</developerConnection>
         <url>http://github.com/HalBuilder/halbuilder-jaxrs</url>
-    </scm>
+      <tag>HEAD</tag>
+  </scm>
 
     <developers>
         <developer>
