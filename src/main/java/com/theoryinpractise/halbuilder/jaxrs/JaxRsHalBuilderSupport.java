@@ -1,7 +1,9 @@
 package com.theoryinpractise.halbuilder.jaxrs;
 
 import com.theoryinpractise.halbuilder.api.ReadableRepresentation;
+import com.theoryinpractise.halbuilder.api.RepresentationFactory;
 
+import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -14,6 +16,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
 @Provider
+@Produces({RepresentationFactory.HAL_XML, RepresentationFactory.HAL_JSON})
 public class JaxRsHalBuilderSupport implements MessageBodyWriter {
 
     private static final MediaType HAL_JSON_TYPE = new MediaType("application", "hal+json");
