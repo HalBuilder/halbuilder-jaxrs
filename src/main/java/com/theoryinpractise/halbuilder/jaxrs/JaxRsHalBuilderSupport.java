@@ -19,13 +19,9 @@ import java.lang.reflect.Type;
 @Produces({RepresentationFactory.HAL_XML, RepresentationFactory.HAL_JSON})
 public class JaxRsHalBuilderSupport implements MessageBodyWriter {
 
-    private static final MediaType HAL_JSON_TYPE = new MediaType("application", "hal+json");
-
-    private static final MediaType HAL_XML_TYPE = new MediaType("application", "hal+xml");
-
     @Override
     public boolean isWriteable(Class aClass, Type type, Annotation[] annotations, MediaType mediaType) {
-        return ReadableRepresentation.class.isAssignableFrom(aClass) && (mediaType.isCompatible(HAL_JSON_TYPE) || mediaType.isCompatible(HAL_XML_TYPE));
+        return ReadableRepresentation.class.isAssignableFrom(aClass) && HalBuilderMediaTypes.isSupported(mediaType);
     }
 
     @Override
