@@ -28,7 +28,8 @@ public class JaxRsHalBuilderReaderSupport implements MessageBodyReader<ContentRe
 
     @Override
     public ContentRepresentation readFrom(Class aClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap multivaluedMap, InputStream inputStream) throws IOException {
-	return factory.readRepresentation(mediaType.toString(), new InputStreamReader(inputStream, "UTF-8"));
+	return factory.readRepresentation(mediaType.toString(),
+                                          new InputStreamReader(inputStream, HalBuilderMediaTypes.DEFAULT_ENCODING));
     }
 
 }
