@@ -1,7 +1,10 @@
 package com.theoryinpractise.halbuilder.jaxrs;
 
-import javax.ws.rs.core.MediaType;
+import com.google.common.base.Charsets;
 import com.theoryinpractise.halbuilder.api.RepresentationFactory;
+
+import javax.ws.rs.core.MediaType;
+import java.nio.charset.Charset;
 
 /**
  * Helper class for MediaType handling common to {@link JaxRsHalBuilderReaderSupport}
@@ -10,7 +13,7 @@ import com.theoryinpractise.halbuilder.api.RepresentationFactory;
 class HalBuilderMediaTypes {
     private static final MediaType HAL_JSON_TYPE = MediaType.valueOf(RepresentationFactory.HAL_JSON);
     private static final MediaType HAL_XML_TYPE = MediaType.valueOf(RepresentationFactory.HAL_XML);
-    static final String DEFAULT_ENCODING = "UFT-8";
+    static final Charset DEFAULT_ENCODING = Charsets.UTF_8;
 
     /**
      * Is the given media type supported by HalBuilder?
