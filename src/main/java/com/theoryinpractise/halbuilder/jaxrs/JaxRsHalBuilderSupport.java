@@ -33,7 +33,8 @@ public class JaxRsHalBuilderSupport implements MessageBodyWriter {
     @Override
     public void writeTo(Object o, Class aClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap multivaluedMap, OutputStream outputStream) throws IOException, WebApplicationException {
         ReadableRepresentation representation = (ReadableRepresentation) o;
-        representation.toString(mediaType.toString(), new OutputStreamWriter(outputStream));
+        representation.toString(mediaType.toString(),
+                                new OutputStreamWriter(outputStream, HalBuilderMediaTypes.DEFAULT_ENCODING));
     }
 
 }
