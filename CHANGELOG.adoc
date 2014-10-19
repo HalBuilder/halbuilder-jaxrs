@@ -1,0 +1,10 @@
+= Change Log
+
+All notable changes to this project will be documented in this file.
+
+== 1.1.1 - 2014-10-19
+
+=== Added
+- Added CHANNGELOG.adoc file for tracking project changes.
+- Added support for reader HAL representations via JAX-RS ( Stefan Bodewig )
+
