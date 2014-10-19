@@ -1,7 +1,9 @@
 package com.theoryinpractise.halbuilder.jaxrs;
 
 import com.theoryinpractise.halbuilder.api.ReadableRepresentation;
+import com.theoryinpractise.halbuilder.api.RepresentationFactory;
 
+import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -14,15 +16,12 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
 @Provider
+@Produces({RepresentationFactory.HAL_XML, RepresentationFactory.HAL_JSON})
 public class JaxRsHalBuilderSupport implements MessageBodyWriter {
-
-    private static final MediaType HAL_JSON_TYPE = new MediaType("application", "hal+json");
-
-    private static final MediaType HAL_XML_TYPE = new MediaType("application", "hal+xml");
 
     @Override
     public boolean isWriteable(Class aClass, Type type, Annotation[] annotations, MediaType mediaType) {
-        return ReadableRepresentation.class.isAssignableFrom(aClass) && (mediaType.isCompatible(HAL_JSON_TYPE) || mediaType.isCompatible(HAL_XML_TYPE));
+        return ReadableRepresentation.class.isAssignableFrom(aClass) && HalBuilderMediaTypes.isSupported(mediaType);
     }
 
     @Override
@@ -34,7 +33,8 @@ public class JaxRsHalBuilderSupport implements MessageBodyWriter {
     @Override
     public void writeTo(Object o, Class aClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap multivaluedMap, OutputStream outputStream) throws IOException, WebApplicationException {
         ReadableRepresentation representation = (ReadableRepresentation) o;
-        representation.toString(mediaType.toString(), new OutputStreamWriter(outputStream));
+        representation.toString(mediaType.toString(),
+                                new OutputStreamWriter(outputStream, HalBuilderMediaTypes.DEFAULT_ENCODING));
     }
 
 }
