@@ -26,8 +26,7 @@ public class JaxRsHalBuilderSupport implements MessageBodyWriter {
 
     @Override
     public long getSize(Object o, Class aClass, Type type, Annotation[] annotations, MediaType mediaType) {
-        ReadableRepresentation representation = (ReadableRepresentation) o;
-        return representation.toString(mediaType.toString()).length();
+        return -1;
     }
 
     @Override
