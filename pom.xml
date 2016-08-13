@@ -101,6 +101,15 @@
     <dependencies>
         <dependency>
             <groupId>com.theoryinpractise</groupId>
+            <artifactId>halbuilder-json</artifactId>
+            <!--
+            Need to adjust version when https://github.com/HalBuilder/halbuilder-json/pull/19
+            has been released
+            -->
+            <version>[4.0.4-SNAPSHOT,5.0.0)</version>
+        </dependency>
+        <dependency>
+            <groupId>com.theoryinpractise</groupId>
             <artifactId>halbuilder-api</artifactId>
             <version>[4.0.0,5.0.0)</version>
         </dependency>
