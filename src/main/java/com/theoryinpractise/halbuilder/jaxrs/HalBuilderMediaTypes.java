@@ -11,8 +11,8 @@ import java.nio.charset.Charset;
  * and {@link JaxRsHalBuilderSupport}.
  */
 class HalBuilderMediaTypes {
-    private static final MediaType HAL_JSON_TYPE = MediaType.valueOf(RepresentationFactory.HAL_JSON);
-    private static final MediaType HAL_XML_TYPE = MediaType.valueOf(RepresentationFactory.HAL_XML);
+    static final MediaType HAL_JSON_TYPE = MediaType.valueOf(RepresentationFactory.HAL_JSON);
+    static final MediaType HAL_XML_TYPE = MediaType.valueOf(RepresentationFactory.HAL_XML);
     static final Charset DEFAULT_ENCODING = Charsets.UTF_8;
 
     /**

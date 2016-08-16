@@ -72,7 +72,8 @@ public class JaxRsHalBuilderRoundtripTest extends JerseyTest {
     @Override
     protected Application configure() {
         return new ResourceConfig(TestResource.class)
-            .packages("com.theoryinpractise.halbuilder.jaxrs");
+                .register(JaxRsHalBuilderSupport.class)
+                .register(JaxRsHalBuilderReaderSupport.class);
     }
 
     @Override
