@@ -26,6 +26,7 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <jackson.version>2.9.0</jackson.version>
+    <jersey.version>2.25.1</jersey.version>
     <jacoco.check.skip>false</jacoco.check.skip>
     <jacoco.check.ratio>0.50</jacoco.check.ratio>
     <jacoco.check.missed>9</jacoco.check.missed>
@@ -40,17 +41,17 @@
     <dependency>
       <groupId>javax.ws.rs</groupId>
       <artifactId>javax.ws.rs-api</artifactId>
-      <version>2.1</version>
+      <version>2.0</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-core</artifactId>
-      <version>2.9.0</version>
+      <version>${jackson.version}</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.9.0</version>
+      <version>${jackson.version}</version>
     </dependency>
     <dependency>
       <groupId>com.squareup.okio</groupId>
@@ -66,25 +67,25 @@
     <dependency>
       <groupId>org.glassfish.jersey.core</groupId>
       <artifactId>jersey-client</artifactId>
-      <version>2.25.1</version>
+      <version>${jersey.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.glassfish.jersey.core</groupId>
       <artifactId>jersey-server</artifactId>
-      <version>2.25.1</version>
+      <version>${jersey.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.glassfish.jersey.test-framework</groupId>
       <artifactId>jersey-test-framework-core</artifactId>
-      <version>2.25.1</version>
+      <version>${jersey.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.glassfish.jersey.test-framework.providers</groupId>
       <artifactId>jersey-test-framework-provider-inmemory</artifactId>
-      <version>2.25.1</version>
+      <version>${jersey.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>

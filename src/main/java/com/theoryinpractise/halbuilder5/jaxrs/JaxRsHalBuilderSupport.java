@@ -48,6 +48,16 @@ public class JaxRsHalBuilderSupport
   }
 
   @Override
+  public long getSize(
+      ResourceRepresentation<?> t,
+      Class<?> type,
+      Type genericType,
+      Annotation[] annotations,
+      MediaType mediaType) {
+    return -1;
+  }
+
+  @Override
   public ResourceRepresentation<?> readFrom(
       Class<ResourceRepresentation<?>> type,
       Type genericType,
