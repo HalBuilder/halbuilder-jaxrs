@@ -1,10 +1,16 @@
 package com.theoryinpractise.halbuilder5.jaxrs;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.theoryinpractise.halbuilder5.ResourceRepresentation;
-import com.theoryinpractise.halbuilder5.Support;
-import io.vavr.collection.HashMap;
-import okio.ByteString;
+import java.net.URI;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Response;
+
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
@@ -13,17 +19,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Application;
-import javax.ws.rs.core.Response;
-import java.net.URI;
-import java.util.Arrays;
-import java.util.Map;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.theoryinpractise.halbuilder5.Links;
+import com.theoryinpractise.halbuilder5.ResourceRepresentation;
+import com.theoryinpractise.halbuilder5.Support;
 
-import static com.theoryinpractise.halbuilder5.Links.getHref;
-import static com.theoryinpractise.halbuilder5.json.JsonRepresentationReader.readByteStringAs;
+import okio.ByteString;
 
 @RunWith(Parameterized.class)
 public class JaxRsHalBuilderRoundtripTest extends JerseyTest {
@@ -42,13 +43,12 @@ public class JaxRsHalBuilderRoundtripTest extends JerseyTest {
   public String subPath;
 
   @Parameterized.Parameters
-  public static Iterable<Object[]> pathsToTest() {
-    return Arrays.asList(new Object[] {"json"}, new Object[] {"xml"});
+  public static Iterable<String> pathsToTest() {
+    return Arrays.asList(new String[] {"json"});
   }
 
   @Path("test")
   public static class TestResource {
-
     @Path("json")
     @Produces(Support.HAL_JSON)
     @GET
@@ -59,11 +59,12 @@ public class JaxRsHalBuilderRoundtripTest extends JerseyTest {
     private static ResourceRepresentation<HashMap<String, String>> createTestRepresentation() {
       return ResourceRepresentation.empty(BASE.toASCIIString())
           .withLink(EXTRA_REL, EXTRA)
-          .withValue(HashMap.of(PROP_KEY, PROP_VALUE))
+          .withValue(io.vavr.collection.HashMap.of(PROP_KEY, PROP_VALUE).toJavaMap())
           .withRepresentation(
               EXTRA_REL,
               ResourceRepresentation.empty(EXTRA.toASCIIString())
-                  .withValue(HashMap.of(EMB_PROP_KEY, EMB_PROP_VALUE)));
+                  .withValue(
+                      io.vavr.collection.HashMap.of(EMB_PROP_KEY, EMB_PROP_VALUE).toJavaMap()));
     }
   }
 
@@ -79,19 +80,25 @@ public class JaxRsHalBuilderRoundtripTest extends JerseyTest {
 
   @Test
   public void shouldHaveProperSelfLink() {
-    Assert.assertEquals(BASE.toString(), getHref(readRepresentation().getResourceLink().get()));
+    Assert.assertEquals(
+        BASE.toString(), Links.getHref(readRepresentation().getResourceLink().get()));
   }
 
   @Test
   public void shouldHaveProperExtraLink() {
-    Assert.assertEquals(EXTRA.toString(), getHref(readRepresentation().getResourceLink().get()));
+    Assert.assertEquals(
+        EXTRA.toString(), Links.getHref(readRepresentation().getLinkByRel(EXTRA_REL).get()));
   }
 
   @Test
-  public void shouldHaveProperPropertyValue() {
-    ResourceRepresentation<Map> map =
-        readEmbeddedRepresentation().map(readByteStringAs(MAPPER, Map.class));
-    Assert.assertEquals(PROP_VALUE, map.get().get(PROP_KEY));
+  public void shouldHaveProperPropertyValue() throws Exception {
+    // Use MAPPER directly here since JsonRepresentationReader.readByteStringAs() does not support generics.
+    Map<String, String> map =
+        MAPPER.readValue(
+            readRepresentation().get().utf8(),
+            MAPPER.getTypeFactory().constructMapType(Map.class, String.class, String.class));
+
+    Assert.assertEquals(PROP_VALUE, map.get(PROP_KEY));
   }
 
   @Test
@@ -101,15 +108,18 @@ public class JaxRsHalBuilderRoundtripTest extends JerseyTest {
 
   @Test
   public void embeddedShouldHaveProperSelfLink() {
-    Assert.assertEquals(EXTRA.toString(), getHref(readRepresentation().getResourceLink().get()));
+    Assert.assertEquals(
+        EXTRA.toString(), Links.getHref(readEmbeddedRepresentation().getResourceLink().get()));
   }
 
   @Test
-  public void embeddedShouldHaveProperPropertyValue() {
-    ResourceRepresentation<Map> map =
-        readEmbeddedRepresentation().map(readByteStringAs(MAPPER, Map.class));
+  public void embeddedShouldHaveProperPropertyValue() throws Exception {
+    Map<String, String> map =
+        MAPPER.readValue(
+            readEmbeddedRepresentation().get().utf8(),
+            MAPPER.getTypeFactory().constructMapType(Map.class, String.class, String.class));
 
-    Assert.assertEquals(EMB_PROP_VALUE, map.get().get(EMB_PROP_KEY));
+    Assert.assertEquals(EMB_PROP_VALUE, map.get(EMB_PROP_KEY));
   }
 
   @Test
@@ -125,10 +135,13 @@ public class JaxRsHalBuilderRoundtripTest extends JerseyTest {
         "application/hal+" + subPath, response.getMetadata().getFirst("Content-Type"));
   }
 
+  @SuppressWarnings("unchecked")
   private ResourceRepresentation<ByteString> readRepresentation() {
-    return target("/test/" + subPath).request().get(ResourceRepresentation.class);
+    return (ResourceRepresentation<ByteString>)
+        target("/test/" + subPath).request().get(ResourceRepresentation.class);
   }
 
+  @SuppressWarnings("unchecked")
   private ResourceRepresentation<ByteString> readEmbeddedRepresentation() {
     return (ResourceRepresentation<ByteString>)
         readRepresentation().getResourcesByRel(EXTRA_REL).head();
