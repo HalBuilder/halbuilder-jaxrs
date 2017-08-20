@@ -10,7 +10,7 @@
 
   <groupId>com.theoryinpractise</groupId>
   <artifactId>halbuilder5-jaxrs</artifactId>
-  <version>5.0.1-SNAPSHOT</version>
+  <version>5.1.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>halbuilder-jaxrs</name>
@@ -36,7 +36,7 @@
     <dependency>
       <groupId>com.theoryinpractise</groupId>
       <artifactId>halbuilder5</artifactId>
-      <version>[5.0.0,6.0.0)</version>
+      <version>[5.1.1,6.0.0)</version>
     </dependency>
     <dependency>
       <groupId>javax.ws.rs</groupId>
