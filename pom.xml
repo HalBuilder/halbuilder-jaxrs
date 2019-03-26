@@ -22,7 +22,8 @@
         <project.build.outputEncoding>${project.custom.encoding}</project.build.outputEncoding>
         <project.reporting.outputEncoding>${project.custom.encoding}</project.reporting.outputEncoding>
         <!-- java version -->
-        <project.custom.java.version>1.8</project.custom.java.version>
+        <project.custom.java.version>9</project.custom.java.version>
+        <maven.compiler.release>9</maven.compiler.release>
         <maven.compiler.source>${project.custom.java.version}</maven.compiler.source>
         <maven.compiler.target>${project.custom.java.version}</maven.compiler.target>
         <!-- jpms automatic module name -->
@@ -186,22 +187,23 @@
             Need to adjust version when https://github.com/HalBuilder/halbuilder-json/pull/19
             has been released
             -->
-            <version>[4.0.4,5.0.0)</version>
+            <version>[4.1.0-SNAPSHOT,5.0.0)</version>
         </dependency>
         <dependency>
             <groupId>com.theoryinpractise</groupId>
             <artifactId>halbuilder-api</artifactId>
-            <version>[4.0.0,5.0.0)</version>
+            <version>[4.1.0-SNAPSHOT,5.0.0)</version>
         </dependency>
         <dependency>
             <groupId>com.theoryinpractise</groupId>
             <artifactId>halbuilder-standard</artifactId>
-            <version>[4.0.0,5.0.0)</version>
+            <version>[4.1.0-SNAPSHOT,5.0.0)</version>
         </dependency>
+
         <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>javax.ws.rs-api</artifactId>
-            <version>2.0.1</version>
+            <version>2.1</version>
         </dependency>
 
         <dependency>
