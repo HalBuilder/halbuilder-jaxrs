@@ -1,7 +1,9 @@
 package com.theoryinpractise.halbuilder.jaxrs;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.theoryinpractise.halbuilder.api.RepresentationFactory;
 
@@ -16,22 +18,22 @@ import java.io.IOException;
 @Produces(RepresentationFactory.HAL_JSON)
 public class ObjectMapperContextResolver implements ContextResolver<ObjectMapper> {
 
-    public ObjectMapper getContext(Class<?> aClass) {
-        final ObjectMapper mapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(new JsonSerializer<String>() {
-            @Override
-            public void serialize(String s, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-                jsonGenerator.writeString(s.toUpperCase());
-            }
+  public ObjectMapper getContext(Class<?> aClass) {
+    final ObjectMapper mapper = new ObjectMapper();
+    SimpleModule module = new SimpleModule();
+    module.addSerializer(
+        new JsonSerializer<String>() {
+          @Override
+          public void serialize(String s, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+            jsonGenerator.writeString(s.toUpperCase());
+          }
 
-            @Override
-            public Class<String> handledType() {
-                return String.class;
-            }
+          @Override
+          public Class<String> handledType() {
+            return String.class;
+          }
         });
-        mapper.registerModule(module);
-        return mapper;
-    }
-
+    mapper.registerModule(module);
+    return mapper;
+  }
 }

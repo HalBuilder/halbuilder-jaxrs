@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>com.theoryinpractise</groupId>
   <artifactId>halbuilder-jaxrs</artifactId>
   <version>4.1.1-SNAPSHOT</version>
   <packaging>jar</packaging>
+
   <name>halbuilder-jaxrs</name>
   <description>JAX-RS Support for the HalBuilder Library</description>
   <url>http://gotohal.net</url>
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.Automatic-Module-Name>com.theoryinpractive.halbuilder.jaxrs</project.Automatic-Module-Name>
-  </properties>
-  <scm>
-    <connection>scm:git:git@github.com:HalBuilder/halbuilder-jaxrs.git</connection>
-    <developerConnection>scm:git:git@github.com:HalBuilder/halbuilder-jaxrs.git</developerConnection>
-    <url>http://github.com/HalBuilder/halbuilder-jaxrs</url>
-    <tag>HEAD</tag>
-  </scm>
+  <licenses>
+    <license>
+      <name>Apache License</name>
+    </license>
+  </licenses>
+
   <developers>
     <developer>
       <id>talios</id>
@@ -26,11 +24,13 @@
       <url>http://twitter.com/talios</url>
     </developer>
   </developers>
-  <licenses>
-    <license>
-      <name>Apache License</name>
-    </license>
-  </licenses>
+
+  <scm>
+    <connection>scm:git:git@github.com:HalBuilder/halbuilder-jaxrs.git</connection>
+    <developerConnection>scm:git:git@github.com:HalBuilder/halbuilder-jaxrs.git</developerConnection>
+    <tag>HEAD</tag>
+    <url>http://github.com/HalBuilder/halbuilder-jaxrs</url>
+  </scm>
   <distributionManagement>
     <repository>
       <id>sonatype-staging</id>
@@ -43,6 +43,58 @@
       <url>https://oss.sonatype.org/content/repositories/github-snapshots/</url>
     </snapshotRepository>
   </distributionManagement>
+
+  <properties>
+    <project.Automatic-Module-Name>com.theoryinpractive.halbuilder.jaxrs</project.Automatic-Module-Name>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <dependency.check.fastfail>false</dependency.check.fastfail>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.theoryinpractise</groupId>
+      <artifactId>halbuilder-api</artifactId>
+      <version>4.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.theoryinpractise</groupId>
+      <artifactId>halbuilder-json</artifactId>
+      <!--
+            Need to adjust version when https://github.com/HalBuilder/halbuilder-json/pull/19
+            has been released
+            -->
+      <version>[4.0.4,5.0.0)</version>
+    </dependency>
+    <dependency>
+      <groupId>com.theoryinpractise</groupId>
+      <artifactId>halbuilder-standard</artifactId>
+      <version>[4.0.0,5.0.0)</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.ws.rs</groupId>
+      <artifactId>javax.ws.rs-api</artifactId>
+      <version>2.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.test-framework</groupId>
+      <artifactId>jersey-test-framework-core</artifactId>
+      <version>2.23.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+      <artifactId>jersey-test-framework-provider-inmemory</artifactId>
+      <version>2.23.2</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
   <build>
     <plugins>
       <plugin>
@@ -69,6 +121,7 @@
       </plugin>
     </plugins>
   </build>
+
   <profiles>
     <profile>
       <id>release</id>
@@ -84,9 +137,6 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
             <version>1.6</version>
-            <configuration>
-              <executable>gpg2</executable>
-            </configuration>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
@@ -96,53 +146,12 @@
                 </goals>
               </execution>
             </executions>
+            <configuration>
+              <executable>gpg2</executable>
+            </configuration>
           </plugin>
         </plugins>
       </build>
     </profile>
   </profiles>
-  <dependencies>
-    <dependency>
-      <groupId>com.theoryinpractise</groupId>
-      <artifactId>halbuilder-json</artifactId>
-      <!--
-            Need to adjust version when https://github.com/HalBuilder/halbuilder-json/pull/19
-            has been released
-            -->
-      <version>[4.0.4,5.0.0)</version>
-    </dependency>
-    <dependency>
-      <groupId>com.theoryinpractise</groupId>
-      <artifactId>halbuilder-api</artifactId>
-      <version>[4.0.0,5.0.0)</version>
-    </dependency>
-    <dependency>
-      <groupId>com.theoryinpractise</groupId>
-      <artifactId>halbuilder-standard</artifactId>
-      <version>[4.0.0,5.0.0)</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.ws.rs</groupId>
-      <artifactId>javax.ws.rs-api</artifactId>
-      <version>2.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.jersey.test-framework</groupId>
-      <artifactId>jersey-test-framework-core</artifactId>
-      <version>2.23.2</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.jersey.test-framework.providers</groupId>
-      <artifactId>jersey-test-framework-provider-inmemory</artifactId>
-      <version>2.23.2</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
 </project>

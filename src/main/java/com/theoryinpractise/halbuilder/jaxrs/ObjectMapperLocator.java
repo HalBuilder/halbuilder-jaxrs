@@ -8,20 +8,20 @@ import javax.ws.rs.ext.Providers;
 
 class ObjectMapperLocator {
 
-    private Providers providers;
+  private Providers providers;
 
-    public ObjectMapperLocator(final Providers providers) {
-        this.providers = providers;
-    }
+  ObjectMapperLocator(final Providers providers) {
+    this.providers = providers;
+  }
 
-    public ObjectMapper locate(Class<?> type, MediaType mediaType) {
-        ObjectMapper mapper = null;
-        if (providers != null) {
-            ContextResolver<ObjectMapper> resolver = providers.getContextResolver(ObjectMapper.class, mediaType);
-            if (resolver != null) {
-                mapper = resolver.getContext(type);
-            }
-        }
-        return mapper;
+  public ObjectMapper locate(Class<?> type, MediaType mediaType) {
+    ObjectMapper mapper = null;
+    if (providers != null) {
+      ContextResolver<ObjectMapper> resolver = providers.getContextResolver(ObjectMapper.class, mediaType);
+      if (resolver != null) {
+        mapper = resolver.getContext(type);
+      }
     }
+    return mapper;
+  }
 }

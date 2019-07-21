@@ -9,9 +9,10 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
 
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
-
 import java.io.IOException;
 import java.net.URI;
 
@@ -21,43 +22,38 @@ import static org.junit.Assert.assertThat;
 
 public class ObjectMapperViaContextResolverTest extends JerseyTest {
 
-    private static final URI BASE = URI.create("http://example.org/");
-    private static RepresentationFactory factory = new JsonRepresentationFactory();
+  private static final URI BASE = URI.create("http://example.org/");
+  private static RepresentationFactory factory = new JsonRepresentationFactory();
 
-    public static class Fields {
-        public String alphabet = "abcdefghijklmnopqrstuvwxyz";
+  public static class Fields {
+    public String alphabet = "abcdefghijklmnopqrstuvwxyz";
+  }
+
+  @Path("test")
+  public static class TestResource {
+
+    @Path("json")
+    @Produces(RepresentationFactory.HAL_JSON)
+    @GET
+    public Representation writeJSON() {
+      return factory.newRepresentation(BASE).withFields(new Fields());
     }
+  }
 
-    @Path("test")
-    public static class TestResource {
+  @Override
+  protected Application configure() {
+    return new ResourceConfig(TestResource.class).register(JaxRsHalBuilderSupport.class).register(ObjectMapperContextResolver.class);
+  }
 
-        @Path("json")
-        @Produces(RepresentationFactory.HAL_JSON)
-        @GET
-        public Representation writeJSON() {
-            return factory.newRepresentation(BASE)
-                    .withFields(new Fields());
-        }
+  @Override
+  protected void configureClient(ClientConfig config) {
+    config.register(JaxRsHalBuilderReaderSupport.class);
+    config.register(ObjectMapperContextResolver.class);
+  }
 
-    }
-
-    @Override
-    protected Application configure() {
-        return new ResourceConfig(TestResource.class)
-                .register(JaxRsHalBuilderSupport.class)
-                .register(ObjectMapperContextResolver.class);
-    }
-
-    @Override
-    protected void configureClient(ClientConfig config) {
-        config.register(JaxRsHalBuilderReaderSupport.class);
-        config.register(ObjectMapperContextResolver.class);
-    }
-
-    @Test
-    public void shouldUseProvidedObjectMapper() throws IOException {
-        ContentRepresentation response = target("/test/json").request(HalBuilderMediaTypes.HAL_JSON_TYPE).get(ContentRepresentation.class);
-        assertThat(response.getContent(), is(equalTo("{\"_links\":{\"self\":{\"href\":\"http://example.org/\"}},\"alphabet\":\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\"}")));
-    }
-
+  @Test
+  public void shouldUseProvidedObjectMapper() throws IOException {
+    ContentRepresentation response = target("/test/json").request(HalBuilderMediaTypes.HAL_JSON_TYPE).get(ContentRepresentation.class);
+    assertThat(response.getContent(), is(equalTo("{\"_links\":{\"self\":{\"href\":\"http://example.org/\"}},\"alphabet\":\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\"}")));
+  }
 }
