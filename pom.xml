@@ -10,6 +10,7 @@
   <url>http://gotohal.net</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.Automatic-Module-Name>com.theoryinpractive.halbuilder.jaxrs</project.Automatic-Module-Name>
   </properties>
   <scm>
     <connection>scm:git:git@github.com:HalBuilder/halbuilder-jaxrs.git</connection>
@@ -51,7 +52,7 @@
         <extensions>true</extensions>
         <configuration>
           <tiles>
-            <tile>com.theoryinpractise:halbuilder-styleguide-tile:[1.0.20]</tile>
+            <tile>com.theoryinpractise:halbuilder-styleguide-tile:[1.0.21]</tile>
           </tiles>
         </configuration>
       </plugin>
